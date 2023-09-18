@@ -1,0 +1,84 @@
+1. Steps : Identify the Entities 
+
+    Table Property{
+     property_id integer [primary key]
+     property_type varchar 
+     address varchar
+     property_description varchar
+     num_of_bedrooms integer
+     num_of_bathrooms integer
+     area integer
+     sale_price float
+     owner varchar
+     data_listed date 
+     status varchar
+}
+
+Table Property_history {
+      history_id integer [primary key]
+      associated_property_id integer
+      owner varchar
+      owning_from date
+      owned_till date 
+}
+Ref: Property.property_id < Property_history.associated_property_id
+
+Table Property_features{
+        feature_id integer [primary key]
+        property_id integer
+        storeys int 
+        type varchar
+        color varchar
+        photos_link varchar 
+        videos_link varchar 
+        owner_name varchar
+  }
+Table Geographical_details {
+      detail_id integer
+      property_id integer
+      Longitudes varchar
+      Latitudes varchar
+      Country varchar
+      state varchar
+      city varchar 
+      town varchar 
+      complete_address varchar 
+}
+
+Ref: Property.property_id - Geographical_details.property_id
+
+
+Ref: Property.property_id < Property_features.property_id
+Table client {
+      client_id integer [primary key]
+      ref_property_id integer
+      first_name varchar
+      last_name varchar
+      phone_number varchar
+}
+
+Table Agent {
+      agent_id integer [primary key]
+      ref_property_id integer
+      first_name varchar
+      last_name varchar
+      phone_number varchar
+}
+
+Table Transactions {
+      transaction_id integer [primary key]
+      property_id integer
+      Buyer_client_id integer
+      Seller_client_id integer
+      Listing_agent_id integer
+      transaction_date date
+      sale_price float
+      transaction_type varchar
+}
+
+Ref: Property.property_id < client.ref_property_id
+Ref: Property.property_id < Agent.ref_property_id
+Ref: Property.property_id < Transactions.property_id
+
+Ref: client.client_id < Transactions.Buyer_client_id
+Ref: client.client_id < Transactions.Seller_client_id
